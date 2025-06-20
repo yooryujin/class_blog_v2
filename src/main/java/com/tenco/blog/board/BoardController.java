@@ -1,12 +1,14 @@
 package com.tenco.blog.board;
 
 
+import jakarta.persistence.Query;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -18,6 +20,22 @@ public class BoardController {
 
     // 생성자 의존 주의 - DI 처리
     private final BoardPersistRepository br;
+
+    // 게시글 상세 보기
+    // 주소 설계 GET : http://localhost:8080/board/3
+    @GetMapping("/board/{id}")
+    public String detail(@PathVariable(name = "id") Long id, HttpServletRequest request) {
+        Board board = br.findById(id);
+        request.setAttribute("board",board);
+        // prefix : classpath:/templates/
+        // return : board/detail
+        // suffix : .mustache
+
+        // 1차 캐시 효과 - DB 에 접근하지 않고 바로 영속성 컨텍스트에서 꺼냄
+        // br.findById(id);
+        return "board/detail";
+    }
+
 
     // 1. index.mustache 파일을 반환 시키는 기능을 들어보자
     // 화면에 리스트를 뿌려주자
