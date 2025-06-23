@@ -47,4 +47,5 @@ public class Board {
     public String getTime() {
         return MyDateUtil.timestampFormat(createdAt);
     }
+
 }

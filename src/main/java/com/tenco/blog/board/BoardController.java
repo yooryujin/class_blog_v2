@@ -1,15 +1,17 @@
 package com.tenco.blog.board;
 
 
-import jakarta.persistence.Query;
+
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
+
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class BoardController {
     @GetMapping("/board/{id}")
     public String detail(@PathVariable(name = "id") Long id, HttpServletRequest request) {
         Board board = br.findById(id);
-        request.setAttribute("board",board);
+        request.setAttribute("board", board);
         // prefix : classpath:/templates/
         // return : board/detail
         // suffix : .mustache
@@ -40,10 +42,10 @@ public class BoardController {
     // 1. index.mustache 파일을 반환 시키는 기능을 들어보자
     // 화면에 리스트를 뿌려주자
     // 주소 설계 : http://localhost:8080/ , http://localhost:8080/index
-    @GetMapping({"/","/index"})
+    @GetMapping({"/", "/index"})
     public String BoardList(HttpServletRequest request) {
         List<Board> boardList = br.findAll();
-        request.setAttribute("boardList",boardList);
+        request.setAttribute("boardList", boardList);
 
         return "index";
     }
@@ -66,6 +68,20 @@ public class BoardController {
         Board board = reqDTO.toEntity();
         br.save(board);
         return "redirect:/";
+    }
+
+    // 게시글 수정하기 화면
+//    @GetMapping("/board/{id}/update-form")
+//    public String update(@PathVariable Long id, Model model) {
+//        Board board = br.findById(id);
+//        model.addAttribute("board",board);
+//        return "board/update-form";
+//    }
+
+    @PostMapping("/board/{id}/update-form")
+    public String correction(@PathVariable Long id, String title, String content, String username) {
+        br.correctionById_Entity(id,title,content,username);
+        return "redirect:/board/" + id;
     }
 
 }

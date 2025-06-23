@@ -61,8 +61,19 @@ public class BoardPersistRepositoryTest {
         // 4. 원본 객체 - board , 영속성 컨텍스트에 저장한 - savedBoard
         Assertions.assertThat(board).isSameAs(savedBoard);
 
+    }
 
+    @Test
+    public void findById_test() {
+        Long id = 1L;
+        List<Board> boardList =br.findAll();
+        Assertions.assertThat(boardList.get(1));
+        Assertions.assertThat(boardList).isNotNull();
+    }
 
+    @Test
+    public void correctionById() {
+        
     }
 
 }

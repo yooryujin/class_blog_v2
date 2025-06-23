@@ -82,4 +82,23 @@ public class BoardPersistRepository {
         return board;
     }
 
+    // 게시글 수정 correction 쿼리
+//    @Transactional
+//    public void correctionById(Long id, String title, String content, String username) {
+//        String sqlStr = "update board_tb SET title = ?, content = ?, username = ? where id = ? ";
+//        Query query = em.createNativeQuery(sqlStr);
+//        query.setParameter(1,title);
+//        query.setParameter(2,content);
+//        query.setParameter(3,username);
+//        query.setParameter(4,id);
+//
+//        int correctionRows = query.executeUpdate();
+//        System.out.println("수정하기 : " + correctionRows);
+//    }
+    @Transactional
+    public void correctionById_Entity(Long id, String title, String content, String username) {
+        Board board = em.find(Board.class,id);
+
+    }
+
 }
