@@ -21,8 +21,26 @@ public class BoardRequest {
         // DTO 에서 Entity 로 변환하는 메서드를 만들기
         // 계층간 데이터 변환을 명확하게 분리하기 위함
         public Board toEntity() {
-            return new Board(title,content,username);
+            return new Board(title, content, username);
+        }
+    }
+        // 게시글 수정용 DTO 추가
+        @Data
+        public static class UpdateDTO {
+            private String title;
+            private String content;
+            private String username;
+
+            // 검증 메서드 (유효성 검사 기능을 추가)
+            public void validate() throws IllegalAccessException {
+                if (title == null || title.trim().isEmpty()) {
+                    throw new IllegalAccessException("제목은 필수 입니다");
+                }
+                if (content == null || content.trim().isEmpty()) {
+                    throw new IllegalAccessException("내용은 필수 입니다");
+                }
+            }
         }
 
     } // end of SaveDTO
-}
+

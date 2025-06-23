@@ -16,6 +16,24 @@ public class BoardPersistRepositoryTest {
     private BoardPersistRepository br;
 
     @Test
+    public void deleteById() {
+        // given
+        Long id = 1L;
+
+        // when
+        // 삭제 할 게시글이 실제로 존재하는지 확인
+        Board targetBoard = br.findById(id);
+        Assertions.assertThat(targetBoard).isNotNull();
+
+        // 영속성 컨텍스트에서 삭제 실행
+        br.deleteById(id);
+
+        // then
+        List<Board> afterDeleteBoardList = br.findAll();
+        Assertions.assertThat(afterDeleteBoardList.size()).isEqualTo(3);
+    }
+
+    @Test
     public void findAll_test() {
         // given
         // db/data.sql (4개의 더미 데이터)
@@ -71,9 +89,9 @@ public class BoardPersistRepositoryTest {
         Assertions.assertThat(boardList).isNotNull();
     }
 
-    @Test
-    public void correctionById() {
-        
-    }
+//    @Test
+//    public void correctionById() {
+//
+//    }
 
 }
